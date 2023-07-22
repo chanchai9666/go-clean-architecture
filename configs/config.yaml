@@ -40,8 +40,15 @@ API:
 DATABASE:
   Main:
     HOST: "localhost"
-    PORT: 3306
-    USERNAME: "root"
+    PORT: 5432
+    USERNAME: "admin"
     PASSWORD: "1234"
-    DATABASE_NAME: "eql_db"
-    DRIVER_NAME: "mysql"
+    DATABASE_NAME: "eql"
+    DRIVER_NAME: "postgres"
+  Main2:
+    HOST: "localhost"
+    PORT: 5432
+    USERNAME: "admin"
+    PASSWORD: "1234"
+    DATABASE_NAME: "eql"
+    DRIVER_NAME: "postgres"

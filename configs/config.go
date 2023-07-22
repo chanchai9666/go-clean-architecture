@@ -59,6 +59,14 @@ type DatabaseConfig struct {
 		DatabaseName string `mapstructure:"DATABASE_NAME"`
 		DriverName   string `mapstructure:"DRIVER_NAME"`
 	} `mapstructure:"Main"`
+	Main2 struct {
+		Host         string `mapstructure:"HOST"`
+		Port         int    `mapstructure:"PORT"`
+		Username     string `mapstructure:"USERNAME"`
+		Password     string `mapstructure:"PASSWORD"`
+		DatabaseName string `mapstructure:"DATABASE_NAME"`
+		DriverName   string `mapstructure:"DRIVER_NAME"`
+	} `mapstructure:"Main2"`
 }
 
 type Config struct {
@@ -67,7 +75,13 @@ type Config struct {
 	DatabaseConfig DatabaseConfig `mapstructure:"DATABASE"`
 }
 
+var currentConfig *Config
+
 func LoadConfig() (*Config, error) {
+	if currentConfig != nil {
+		return currentConfig, nil
+	}
+
 	viper.SetConfigName("config")
 	viper.AddConfigPath("configs")
 	viper.SetConfigType("yaml")
@@ -81,5 +95,12 @@ func LoadConfig() (*Config, error) {
 		return nil, fmt.Errorf("error unmarshaling config: %w", err)
 	}
 
-	return &config, nil
+	currentConfig = &config
+	return currentConfig, nil
+}
+
+// สร้างฟังก์ชันควบคุมในการโหลด Config
+// เพื่อให้คุณสามารถเรียกใช้ LoadConfig ได้จากทุกที่ในโปรแกรม
+func GetConfig() (*Config, error) {
+	return LoadConfig()
 }
