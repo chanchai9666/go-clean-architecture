@@ -1,0 +1,47 @@
+# config.yaml
+
+APP:
+  PROJECT_ID: "EQL"
+  SYSTEM_NAME: "EQL"
+  WEB_BASE_URL: "http://dev-eql.co.th"
+  API_BASE_URL: "http://dev-eql.co.th/api"
+  VERSION: "v1"
+  ENVIRONMENT: "dev"
+  RELEASE: false
+  PORT: 8318
+
+API:
+  HRIS:
+    HOSTPIS: "https://hrisdev.ace-energy.co.th/pis/api/v1"
+    HOSTHRIS: "https://hrisdev.ace-energy.co.th/hris/api/v1"
+    HOSTPSS: "https://hrisdev.ace-energy.co.th/pss/api/v1"
+    TOKEN_AUTH: "Basic YWNlOktVQVZ0RXo1U1Jlczh1cHo=" 
+    ROUTES:
+      BANK: "/banks" 
+      POSITION: "/positions/attributes/pages?size=2000"
+      EMPLOYEE: "/employees?ids="
+      EMPLOYEEIDS: "/employees/all?employee_ids="
+      EMPLOYEEIDCOMPANY: "/employees/all?company_ids="
+      REWARDS: "/rewards"
+      GROUPREWARDS: "/group_rewards"
+      CANCELPATMENT: "/cancel_payment"
+      PATHDEPARTMENT: "/departments"
+      PATHPOSITION: "/positions"
+      PATHCOMPANY: "/companies"
+      PATHSECTION: "/sections"
+      PATHSEGMENTS: "/segments"
+  FAS:
+    HOST: "http://dev-fas.ace-energy.co.th/api/v1/public"
+    TOKEN_AUTH: "Basic TmV3ZkluQU5jZTpwQHNzZkluQU5jZQ==" 
+    ROUTES:
+      BANK: "/getConfigBank"
+      BANKSTOP: "/getConfigBankStop"   
+
+DATABASE:
+  Main:
+    HOST: "localhost"
+    PORT: 3306
+    USERNAME: "root"
+    PASSWORD: "1234"
+    DATABASE_NAME: "eql_db"
+    DRIVER_NAME: "mysql"
