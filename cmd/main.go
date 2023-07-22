@@ -50,7 +50,7 @@ func main() {
 
 	err = app.Listen(fmt.Sprintf(":%v", conf.AppConfig.Port))
 	if err != nil {
-		log.Fatalf("Error running server: %s", err.Error())
+		log.Fatalf("Error running server T^T: %s", err.Error())
 	}
 
 }
