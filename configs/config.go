@@ -75,11 +75,11 @@ type Config struct {
 	DatabaseConfig DatabaseConfig `mapstructure:"DATABASE"`
 }
 
-var currentConfig *Config
+var CF *Config
 
 func LoadConfig() (*Config, error) {
-	if currentConfig != nil {
-		return currentConfig, nil
+	if CF != nil {
+		return CF, nil
 	}
 
 	viper.SetConfigName("config")
@@ -95,8 +95,8 @@ func LoadConfig() (*Config, error) {
 		return nil, fmt.Errorf("error unmarshaling config: %w", err)
 	}
 
-	currentConfig = &config
-	return currentConfig, nil
+	CF = &config
+	return CF, nil
 }
 
 // สร้างฟังก์ชันควบคุมในการโหลด Config

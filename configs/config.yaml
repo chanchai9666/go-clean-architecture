@@ -45,6 +45,13 @@ DATABASE:
     PASSWORD: "1234"
     DATABASE_NAME: "eql"
     DRIVER_NAME: "postgres"
+# Main:
+  #   HOST: "10.4.5.83"
+  #   PORT: 5002
+  #   USERNAME: "root"
+  #   PASSWORD: "qKZOAe"
+  #   DATABASE_NAME: "misbot_db"
+  #   DRIVER_NAME: "postgres"
   Main2:
     HOST: "localhost"
     PORT: 5432

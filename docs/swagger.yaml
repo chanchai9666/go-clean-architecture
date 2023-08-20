@@ -1,0 +1,78 @@
+definitions:
+  main.Account:
+    properties:
+      id:
+        type: string
+    type: object
+  main.HTTPError:
+    type: object
+  schema.HTTPError:
+    type: object
+info:
+  contact: {}
+paths:
+  /accounts/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      operationId: get-string-by-int
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Account'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.HTTPError'
+      summary: Show a account
+  /api/users/users2:
+    get:
+      consumes:
+      - application/json
+      description: Show All User
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.HTTPError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/schema.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.HTTPError'
+      summary: Show User
+      tags:
+      - User
+securityDefinitions:
+  ApiKeyAuth:
+    in: ใส่ค่า Bearer เว้นวรรคและตามด้วย TOKEN  ex(Bearer ?????????)
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
