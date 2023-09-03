@@ -13,7 +13,7 @@ import (
 )
 
 func GetMainDatabase(c *fiber.Ctx) *gorm.DB {
-	dbValue := c.Locals("main")
+	dbValue := c.Locals("main") //db หลัก
 	if dbValue == nil {
 		dsnMain := GenerateDSN(configs.CF.DatabaseConfig, "Main")
 		db, err := DatabaseConnections(dsnMain)

@@ -49,23 +49,36 @@ func MapToStruct(c *fiber.Ctx, input interface{}) error {
 	return nil
 }
 
-func ResponseObject(c *fiber.Ctx, fn interface{}, input interface{}) error {
-	contentType := c.Get("Content-Type")
+func RespJson(c *fiber.Ctx, fn interface{}, input interface{}) error {
+	Method := c.Method()
 	switch {
-	case strings.HasPrefix(contentType, "application/json"):
+	case strings.HasPrefix(Method, "POST"):
 		if err := c.BodyParser(input); err != nil {
 			return err
 		}
-	case strings.HasPrefix(contentType, "application/x-www-form-urlencoded"), strings.HasPrefix(contentType, "multipart/form-data"):
-		if err := mapFormValues(c, input); err != nil {
-			return err
-		}
-	case strings.HasPrefix(contentType, "application/x-www-form-urlencoded"):
+	case strings.HasPrefix(Method, "GET"):
 		if err := c.QueryParser(input); err != nil {
 			return err
 		}
+	case c.Is("multipart/form-data"):
+		if err := mapFormValues(c, input); err != nil {
+			return err
+		}
+
 	default:
-		return fmt.Errorf("unsupported content type: %s", contentType)
+		return fmt.Errorf("unsupported content type: %s", Method)
+	}
+
+	// Validate ค่าที่รับเข้ามา
+	if err := validate.Struct(input); err != nil {
+		// กรณีมี error ในการ validate แสดงข้อความเพิ่มเติม
+		errs := err.(validator.ValidationErrors)
+		errorMsg := "Invalid request data:"
+		for _, e := range errs {
+			errorMsg += fmt.Sprintf("\n- Field: %s, Type: %T, Error: %s", e.Field(), e.Value(), e.Tag())
+		}
+		// return fmt.Errorf(errorMsg)
+		return fiber.NewError(fiber.StatusBadRequest, errorMsg)
 	}
 
 	out := reflect.ValueOf(fn).Call([]reflect.Value{

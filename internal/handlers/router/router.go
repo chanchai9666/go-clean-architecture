@@ -27,6 +27,7 @@ func SetupRouter(app *fiber.App, c *fiber.Ctx) {
 
 	userRouter := api.Group("/users")
 	userRouter.Get("/users2", userEndPoint.GetUserByID)
+	userRouter.Get("/getuser", userEndPoint.GetUser)
 
 	LogRouter(api.Group("/logs"))
 }

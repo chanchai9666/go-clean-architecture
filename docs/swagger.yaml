@@ -1,48 +1,68 @@
 definitions:
-  main.Account:
+  models.User:
     properties:
-      id:
+      created_at:
         type: string
-    type: object
-  main.HTTPError:
+      email:
+        type: string
+      id:
+        type: integer
+      updated_at:
+        type: string
+      username:
+        type: string
     type: object
   schema.HTTPError:
     type: object
 info:
   contact: {}
 paths:
-  /accounts/{id}:
+  /api/users/getuser:
     get:
       consumes:
       - application/json
-      description: get string by ID
-      operationId: get-string-by-int
+      description: Show User ตามเงื่อนไข
       parameters:
-      - description: Account ID
-        in: path
+      - in: query
+        name: created_at
+        type: string
+      - in: query
+        name: email
+        type: string
+      - in: query
         name: id
-        required: true
         type: integer
+      - in: query
+        name: updated_at
+        type: string
+      - in: query
+        name: username
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.Account'
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/main.HTTPError'
+            $ref: '#/definitions/schema.HTTPError'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/main.HTTPError'
+            $ref: '#/definitions/schema.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/main.HTTPError'
-      summary: Show a account
+            $ref: '#/definitions/schema.HTTPError'
+      summary: ค้นหา User ตามเงื่อนไข
+      tags:
+      - User
   /api/users/users2:
     get:
       consumes:
