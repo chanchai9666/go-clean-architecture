@@ -1,0 +1,14 @@
+version: '3'
+services:
+  gofiber-app:
+    build: .
+    ports:
+      - "8318:8318"  # เปลี่ยนพอร์ตตามที่คุณต้องการ
+    networks:
+      - mysql_default  # เชื่อมต่อกับเครือข่าย mysql_default
+
+networks:
+  mysql_default:
+    name: mysql_default
+    external: true
+

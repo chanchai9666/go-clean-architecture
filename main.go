@@ -6,11 +6,11 @@ import (
 	"log"
 
 	swagger "github.com/arsmn/fiber-swagger/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/valyala/fasthttp"
 
 	"eql/configs"
 	"eql/docs"
+	"eql/internal/app/service"
 	"eql/internal/handlers/router"
 	"eql/internal/infrastructures/gofiber"
 )
@@ -23,8 +23,7 @@ func main() {
 		panic(fmt.Errorf("failed to load config: %w", err))
 	}
 	app := gofiber.NewServer() //start go fiber
-	// กำหนดค่า CORS ดังนี้
-	app.Use(cors.New())
+
 	c := app.AcquireCtx(&fasthttp.RequestCtx{})
 	defer app.ReleaseCtx(c)
 
@@ -41,8 +40,14 @@ func main() {
 	// =======================================================
 	// เพิ่ม middleware สำหรับการเข้าถึง Swagger UI
 	// เพิ่ม middleware สำหรับการเข้าถึง Swagger UI ด้วยควบคุมสิทธิ์
+
 	app.Get("/swagger/*", swagger.New(swagger.Config{}))
 	router.SetupRouter(app, c) //เรียก router ต่างๆ
+
+	has, _ := service.HashPassword("12345")
+	if service.CheckPassword("123456", has) {
+		fmt.Println("Password OK")
+	}
 
 	err = app.Listen(fmt.Sprintf(":%v", conf.AppConfig.Port))
 	if err != nil {

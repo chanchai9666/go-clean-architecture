@@ -14,9 +14,51 @@ definitions:
     type: object
   schema.HTTPError:
     type: object
+  schema.LoginReq:
+    properties:
+      password:
+        type: string
+      user_name:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: login เข้าสู่ระบบเพื่อสร้าง jwt token
+      parameters:
+      - description: ' request body '
+        in: body
+        name: request
+        schema:
+          $ref: '#/definitions/schema.LoginReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/schema.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.HTTPError'
+      summary: Login เข้าสู่ระบบ
+      tags:
+      - AUTH
   /api/users/getuser:
     get:
       consumes:
@@ -60,6 +102,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/schema.HTTPError'
+      security:
+      - ApiKeyAuth: []
       summary: ค้นหา User ตามเงื่อนไข
       tags:
       - User
@@ -67,7 +111,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Show All User
+      description: แสดงข้อมูลทั้งหมดแบบไม่มีเงื่อนไข
       produces:
       - application/json
       responses:
@@ -87,7 +131,9 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/schema.HTTPError'
-      summary: Show User
+      security:
+      - ApiKeyAuth: []
+      summary: แสดงข้อมูล User ทั้งหมด
       tags:
       - User
 securityDefinitions:

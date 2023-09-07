@@ -39,7 +39,6 @@ type APIConfig struct {
 			PathSegments      string `mapstructure:"PATHSEGMENTS"`
 		} `mapstructure:"ROUTES"`
 	} `mapstructure:"HRIS"`
-
 	FAS struct {
 		Host      string `mapstructure:"HOST"`
 		TokenAuth string `mapstructure:"TOKEN_AUTH"`

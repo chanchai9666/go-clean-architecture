@@ -16,8 +16,67 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/auth/login": {
+            "post": {
+                "description": "login เข้าสู่ระบบเพื่อสร้าง jwt token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AUTH"
+                ],
+                "summary": "Login เข้าสู่ระบบ",
+                "parameters": [
+                    {
+                        "description": " request body ",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/schema.LoginReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.User"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/schema.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/schema.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/schema.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
         "/api/users/getuser": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Show User ตามเงื่อนไข",
                 "consumes": [
                     "application/json"
@@ -90,7 +149,12 @@ const docTemplate = `{
         },
         "/api/users/users2": {
             "get": {
-                "description": "Show All User",
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "แสดงข้อมูลทั้งหมดแบบไม่มีเงื่อนไข",
                 "consumes": [
                     "application/json"
                 ],
@@ -100,7 +164,7 @@ const docTemplate = `{
                 "tags": [
                     "User"
                 ],
-                "summary": "Show User",
+                "summary": "แสดงข้อมูล User ทั้งหมด",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -153,6 +217,17 @@ const docTemplate = `{
         },
         "schema.HTTPError": {
             "type": "object"
+        },
+        "schema.LoginReq": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "user_name": {
+                    "type": "string"
+                }
+            }
         }
     },
     "securityDefinitions": {

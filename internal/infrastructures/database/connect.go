@@ -12,6 +12,7 @@ import (
 	"eql/configs"
 )
 
+// dd:=configs.CF.DatabaseConfig
 func GetMainDatabase(c *fiber.Ctx) *gorm.DB {
 	dbValue := c.Locals("main") //db หลัก
 	if dbValue == nil {

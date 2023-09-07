@@ -7,6 +7,8 @@ import (
 
 	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/compress"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 
 	"eql/internal/handlers/middleware"
@@ -29,11 +31,15 @@ func NewServer() *fiber.App {
 	// 	panic(fmt.Errorf("failed to load config: %w", err))
 	// }
 
+	// กำหนดค่า CORS ดังนี้
+	app.Use(cors.New())
 	app.Use(
 		logger.New(middleware.LoggerFormat()), // เพิ่ม Logger Middleware เพื่อแสดงข้อมูลการทำงานของ API
 		middleware.TimeLogger,                 // เพิ่ม middleware TimeLogger เพื่อบันทึกเวลาที่ใช้ในการ request
 		middleware.RequestLoggerMiddleware,    //Add RequestLoggerMiddleware to log requests and responses in JSON format
 	)
+	// สร้าง middleware สำหรับการบีบอัด
+	app.Use(compress.New())
 	//Recover กรณี panic หรือ มีเหตุให้ API หยุดทำงาน
 	app.Use(func(c *fiber.Ctx) error {
 		defer func() {
